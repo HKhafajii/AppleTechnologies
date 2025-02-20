@@ -7,15 +7,24 @@
 
 import SwiftUI
 import Vision
-
-
-
+import PhotosUI
 
 
 struct PersonSegmentation: View {
+    
+    @State var photoPickerItem: PhotosPickerItem?
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            
+            
+            PhotosPicker("Choose an image to mask people", selection: $photoPickerItem)
+      
+            
+            
+        }
     }
+    
     
     func showImageMask(from imageURL: URL) -> CVPixelBuffer? {
         
