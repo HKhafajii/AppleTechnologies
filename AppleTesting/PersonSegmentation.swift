@@ -17,17 +17,20 @@ struct PersonSegmentation: View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
     
-    func showImageMask(url: Image) -> CVPixelBuffer {
+    func showImageMask(from imageURL: URL) -> CVPixelBuffer? {
+        
         let request = VNGeneratePersonSegmentationRequest()
+        let requestHandler = VNImageRequestHandler(url: imageURL, options: [:])
         
-        var imageURL = URL(fileURLWithPath: url.fileExporterFilenameLabel)
-        
-        
-        let requestHandler = VNImageRequestHandler(url: imageURL, options: choices)
+        do {
+            try requestHandler.perform([request])
+        } catch {
+            print("Error performing request: \(error)")
+        }
 
-        let mask = request.results!.first!
-        let maskBuffer = mask.pixelBuffer
-        return maskBuffer
+        guard let mask = request.results?.first as? VNPixelBufferObservation else { return nil}
+        
+        return mask.pixelBuffer
     }
 }
 
